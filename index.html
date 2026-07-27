@@ -1,0 +1,130 @@
+
+<div style="background: #0A0F48; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;">
+  <p style="font-size: 22px; font-weight: 500; color: #FFFFFF; margin: 0 0 4px; letter-spacing: 0.5px;">DASHBOARD ENCUESTA LEAD UTP</p>
+  <p style="font-size: 13px; color: #A9AEDB; margin: 0;">LEAD Talent Room · Microsoft Perú — 18 respuestas registradas</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 1.75rem;">
+  <div style="background: #0A0F48; border-radius: 12px; padding: 1.1rem;">
+    <p style="font-size: 13px; color: #A9AEDB; margin: 0 0 6px;">Respuestas totales</p>
+    <p style="font-size: 28px; font-weight: 500; margin: 0; color: #FFFFFF;">18</p>
+  </div>
+  <div style="background: #0A0F48; border-radius: 12px; padding: 1.1rem;">
+    <p style="font-size: 13px; color: #A9AEDB; margin: 0 0 6px;">Calificación de utilidad del contenido</p>
+    <p style="font-size: 28px; font-weight: 500; margin: 0; color: #FFFFFF;">4.94 <span style="font-size:13px; color:#8B8FBE;">/5</span></p>
+  </div>
+  <div style="background: #0A0F48; border-radius: 12px; padding: 1.1rem;">
+    <p style="font-size: 13px; color: #A9AEDB; margin: 0 0 6px;">Calificación de ponencias y mentorías</p>
+    <p style="font-size: 28px; font-weight: 500; margin: 0; color: #FFFFFF;">4.94 <span style="font-size:13px; color:#8B8FBE;">/5</span></p>
+  </div>
+  <div style="background: #D53943; border-radius: 12px; padding: 1.1rem;">
+    <p style="font-size: 13px; color: #FBD9DB; margin: 0 0 6px;">Calificación máxima</p>
+    <p style="font-size: 28px; font-weight: 500; margin: 0; color: #FFFFFF;">94.4%</p>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+  <div>
+    <p style="font-size: 14px; color: var(--text-secondary); margin: 0 0 8px; font-weight: 500;">Distribución de calificaciones</p>
+    <div style="position: relative; width: 100%; height: 190px;">
+      <canvas id="chartScores" role="img" aria-label="Barras apiladas horizontales: Utilidad del contenido y Ponencias y mentorías, cada una con 17 respuestas de calificación 5 y 1 respuesta de calificación 4">Utilidad: 5 (17), 4 (1). Mentorías: 5 (17), 4 (1).</canvas>
+    </div>
+    <div style="display: flex; gap: 16px; margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
+      <span style="display:flex; align-items:center; gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#D53943;"></span>Calificación 5</span>
+      <span style="display:flex; align-items:center; gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#0A0F48;"></span>Calificación 4</span>
+    </div>
+  </div>
+  <div>
+    <p style="font-size: 14px; color: var(--text-secondary); margin: 0 0 8px; font-weight: 500;">Ponente más rescatado </p>
+    <div style="position: relative; width: 100%; height: 190px;">
+      <canvas id="chartPonentes" role="img" aria-label="Dona: General o todos 10, Marita 5, Luis Coronel 1, Deysi 1, sin respuesta 1">General/todos 10, Marita 5, Luis Coronel 1, Deysi 1, sin respuesta 1</canvas>
+    </div>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 2rem;">
+  <div>
+    <p style="font-size: 14px; color: var(--text-secondary); margin: 0 0 8px; font-weight: 500;">Aspectos a mejorar </p>
+    <div style="position: relative; width: 100%; height: 250px;">
+      <canvas id="chartMejoras" role="img" aria-label="Barras horizontales: sin comentario 6, ambiente o ventilación 5, tiempos u organización 5, networking 1, metodología 1">Sin comentario 6, Ambiente/ventilación 5, Tiempos/organización 5, Networking 1, Metodología 1</canvas>
+    </div>
+  </div>
+  <div>
+    <p style="font-size: 14px; color: var(--text-secondary); margin: 0 0 8px; font-weight: 500;">Dinámicas deseadas a futuro</p>
+    <div style="position: relative; width: 100%; height: 280px;">
+      <canvas id="chartDinamicas" role="img" aria-label="Barras horizontales: simulacro de entrevistas 9, entrevistas 1 a 1 o consultoria 2, sin respuesta 2, otros 2, habilidades blandas 2, marca personal linkedin 1, mas ponentes 1">Simulacro de entrevistas 9, entrevistas 1 a 1 2, sin respuesta 2, otros 2, habilidades blandas 2, LinkedIn 1, más ponentes 1</canvas>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+const muted = isDark ? '#c3c2b7' : '#52514e';
+const grid = isDark ? '#2c2c2a' : '#e1e0d9';
+Chart.defaults.color = muted;
+Chart.defaults.font.size = 12;
+
+const NAVY = '#0A0F48';
+const RED = '#D53943';
+const NAVY_TINT = '#4B5090';
+const RED_TINT = '#E8828A';
+const GRAY = '#B4B2A9';
+
+new Chart(document.getElementById('chartScores'), {
+  type: 'bar',
+  data: {
+    labels: ['Utilidad del contenido', 'Ponencias y mentorías'],
+    datasets: [
+      { label: 'Calificación 5', data: [17, 17], backgroundColor: RED, stack: 's' },
+      { label: 'Calificación 4', data: [1, 1], backgroundColor: NAVY, stack: 's' }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    scales: { x: { stacked: true, grid: { color: grid }, max: 18 }, y: { stacked: true, grid: { display: false } } },
+    plugins: { legend: { display: false } }
+  }
+});
+
+new Chart(document.getElementById('chartPonentes'), {
+  type: 'doughnut',
+  data: {
+    labels: ['General / todos', 'Marita', 'Luis Coronel', 'Deysi', 'Sin respuesta'],
+    datasets: [{ data: [10, 5, 1, 1, 1], backgroundColor: [NAVY, RED, NAVY_TINT, RED_TINT, GRAY] }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '60%',
+    plugins: { legend: { display: false } }
+  }
+});
+
+new Chart(document.getElementById('chartMejoras'), {
+  type: 'bar',
+  data: {
+    labels: ['Sin comentario', 'Ambiente / ventilación', 'Tiempos / organización', 'Networking', 'Metodología'],
+    datasets: [{ data: [6, 5, 5, 1, 1], backgroundColor: [GRAY, RED, NAVY, RED_TINT, NAVY_TINT], borderRadius: 4 }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    scales: { x: { grid: { color: grid }, max: 8 }, y: { grid: { display: false } } },
+    plugins: { legend: { display: false } }
+  }
+});
+
+new Chart(document.getElementById('chartDinamicas'), {
+  type: 'bar',
+  data: {
+    labels: ['Simulacro de entrevistas', 'Entrevistas 1 a 1 / consultoría', 'Sin respuesta', 'Otros', 'Habilidades blandas', 'Marca personal LinkedIn', 'Más ponentes'],
+    datasets: [{ data: [9, 2, 2, 2, 2, 1, 1], backgroundColor: NAVY, borderRadius: 4 }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    scales: { x: { grid: { color: grid }, max: 10 }, y: { grid: { display: false } } },
+    plugins: { legend: { display: false } }
+  }
+});
+</script>
